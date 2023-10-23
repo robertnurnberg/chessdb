@@ -2877,7 +2877,6 @@ try{
 					}
 					$docs[] = $doc['_id'];
 				}
-				$cursor->reset();
 				if( count( $docs ) > 0 ) {
 					$collection2->remove( array( '_id' => array( '$in' => $docs ) ) );
 				}
@@ -2951,7 +2950,6 @@ try{
 					}
 					$docs[] = $doc['_id'];
 				}
-				$cursor->reset();
 				if( count( $docs ) > 0 ) {
 					$collection2->remove( array( '_id' => array( '$in' => $docs ) ) );
 				}

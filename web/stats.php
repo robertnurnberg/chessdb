@@ -91,14 +91,10 @@ try{
 
 	$m = new MongoClient();
 	$collection = $m->selectDB('ccdbqueue')->selectCollection('queuedb');
-	$cursor = $collection->find( array( 'p' => 1 ) );
-	$count2 = $cursor->count();
-	$cursor->reset();
+	$count2 = $collection->count();
 
 	$collection = $m->selectDB('ccdbsel')->selectCollection('seldb');
-	$cursor = $collection->find( array( 'p' => 1 ) );
-	$count3 = $cursor->count();
-	$cursor->reset();
+	$count3 = $collection->count();
 
 	$egtb_count_dtc = 0;
 	$egtb_size_dtc = 0;
@@ -115,7 +111,7 @@ try{
 		$egtb_count_dtm = $egtbstats[2];
 		$egtb_size_dtm = $egtbstats[3];
 	} else {
-		$egtb_dirs_dtc = array( '/home/apache/EGTB_DTC/' );
+		$egtb_dirs_dtc = array( '/data/EGTB_DTC/' );
 		foreach( $egtb_dirs_dtc as $dir ) {
 			$dir_iter = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $dir, FilesystemIterator::SKIP_DOTS ), RecursiveIteratorIterator::SELF_FIRST );
 			foreach( $dir_iter as $file ) {
@@ -124,7 +120,7 @@ try{
 			}
 		}
 
-		$egtb_dirs_dtm = array( '/home/apache/EGTB_DTM/' );
+		$egtb_dirs_dtm = array( '/data/EGTB_DTM/' );
 		foreach( $egtb_dirs_dtm as $dir ) {
 			$dir_iter = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $dir, FilesystemIterator::SKIP_DOTS ), RecursiveIteratorIterator::SELF_FIRST );
 			foreach( $dir_iter as $file ) {

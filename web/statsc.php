@@ -94,14 +94,10 @@ try{
 
 	$m = new MongoClient();
 	$collection = $m->selectDB('cdbqueue')->selectCollection('queuedb');
-	$cursor = $collection->find( array( 'p' => 1 ) );
-	$count2 = $cursor->count();
-	$cursor->reset();
+	$count2 = $collection->count();
 
 	$collection = $m->selectDB('cdbsel')->selectCollection('seldb');
-	$cursor = $collection->find( array( 'p' => 1 ) );
-	$count3 = $cursor->count();
-	$cursor->reset();
+	$count3 = $collection->count();
 
 	$egtb_count_wdl = 0;
 	$egtb_size_wdl = 0;
@@ -118,7 +114,7 @@ try{
 		$egtb_count_dtz = $egtbstats[2];
 		$egtb_size_dtz = $egtbstats[3];
 	} else {
-		$egtb_dirs = array( '/home/syzygy/3-6men/', '/home/syzygy/7men/4v3_pawnful', '/home/syzygy/7men/4v3_pawnless', '/home/syzygy/7men/5v2_pawnful', '/home/syzygy/7men/5v2_pawnless', '/home/syzygy/7men/6v1_pawnful', '/home/syzygy/7men/6v1_pawnless' );
+		$egtb_dirs = array( '/data/syzygy/3-6men/', '/data/syzygy/7men/4v3_pawnful', '/data/syzygy/7men/4v3_pawnless', '/data/syzygy/7men/5v2_pawnful', '/data/syzygy/7men/5v2_pawnless', '/data/syzygy/7men/6v1_pawnful', '/data/syzygy/7men/6v1_pawnless' );
 		foreach( $egtb_dirs as $dir ) {
 			$dir_iter = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $dir, FilesystemIterator::SKIP_DOTS ), RecursiveIteratorIterator::SELF_FIRST );
 			foreach( $dir_iter as $filename => $file ) {
