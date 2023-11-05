@@ -423,6 +423,7 @@ function getMoves( $redis, $row, $update, $learn, $depth ) {
 				foreach( $allmoves as $key => $item ) {
 					$findmoves[$key] = $item;
 				}
+				$learnArr = array();
 				foreach( $findmoves as $key => $item ) {
 					$nextfen = cbmovemake( $row, $key );
 					list( $nextmoves, $variations ) = getMoves( $redis, $nextfen, false, false, $depth );
@@ -430,9 +431,11 @@ function getMoves( $redis, $row, $update, $learn, $depth ) {
 						updateQueue( $row, $key, true );
 					}
 					else if( $learn ) {
-						$memcache_obj->set( 'Learn2::' . $nextfen, array( $row, $key ), 0, 300 );
+						$learnArr['Learn2::' . $nextfen] = array( $row, $key );
 					}
 				}
+				if( count( $learnArr ) > 0 )
+					$memcache_obj->set( $learnArr, NULL, 0, 300 );
 			}
 		}
 		$autolearn = $memcache_obj->get( 'Learn2::' . $row );
@@ -667,12 +670,15 @@ function getMovesWithCheck( $redis, $row, $ply, $enumlimit, $resetlimit, $learn,
 							foreach( $allmoves as $key => $item ) {
 								$findmoves[$key] = $item;
 							}
+							$learnArr = array();
 							foreach( $findmoves as $key => $item ) {
 								$nextfen = cbmovemake( $row, $key );
 								if( $learn ) {
-									$memcache_obj->set( 'Learn2::' . $nextfen, array( $row, $key ), 0, 300 );
+									$learnArr['Learn2::' . $nextfen] = array( $row, $key );
 								}
 							}
+							if( count( $learnArr ) > 0 )
+								$memcache_obj->set( $learnArr, NULL, 0, 300 );
 							$autolearn = $memcache_obj->get( 'Learn2::' . $row );
 							if( $autolearn !== FALSE ) {
 								$memcache_obj->delete( 'Learn2::' . $row );
@@ -1007,12 +1013,15 @@ function getAnalysisPath( $redis, $row, $ply, $enumlimit, $isbest, $learn, $dept
 							foreach( $allmoves as $key => $item ) {
 								$findmoves[$key] = $item;
 							}
+							$learnArr = array();
 							foreach( $findmoves as $key => $item ) {
 								$nextfen = cbmovemake( $row, $key );
 								if( $learn ) {
-									$memcache_obj->set( 'Learn2::' . $nextfen, array( $row, $key ), 0, 300 );
+									$learnArr['Learn2::' . $nextfen] = array( $row, $key );
 								}
 							}
+							if( count( $learnArr ) > 0 )
+								$memcache_obj->set( $learnArr, NULL, 0, 300 );
 							$autolearn = $memcache_obj->get( 'Learn2::' . $row );
 							if( $autolearn !== FALSE ) {
 								$memcache_obj->delete( 'Learn2::' . $row );
