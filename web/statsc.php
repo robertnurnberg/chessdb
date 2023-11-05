@@ -104,7 +104,7 @@ try{
 	$egtb_count_dtz = 0;
 	$egtb_size_dtz = 0;
 	$memcache_obj = new Memcache();
-	$memcache_obj->pconnect('localhost', 11211);
+	$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0);
 	if( !$memcache_obj )
 		throw new Exception( 'Memcache error.' );
 	$egtbstats = $memcache_obj->get( 'EGTBStats2' );
@@ -134,11 +134,6 @@ try{
 	}
 	$nps = 0;
 	$est = 0;
-	$memcache_obj = new Memcache();
-	$memcache_obj->pconnect('localhost', 11211);
-	if( !$memcache_obj )
-		throw new Exception( 'Memcache error.' );
-
 	$activelist = $memcache_obj->get('WorkerList2');
 	if($activelist !== FALSE) {
 		$lastminute = date('i', time() - 60);
