@@ -683,8 +683,7 @@ function getMoves( $redis, $row, $banmoves, $update, $mirror, $learn, $depth ) {
 		if( count( $updatemoves ) > 0 )
 			updateScore( $redis, $row, $updatemoves );
 		$memcache_obj = new Memcache();
-		$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0);
-		if( !$memcache_obj )
+		if( !$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0) )
 			throw new Exception( 'Memcache error.' );
 		if( count_pieces( $row ) >= 10 && count_attackers( $row ) >= 4 ) {
 			$allmoves = ccbmovegen( $row );
@@ -958,8 +957,7 @@ function getMovesWithCheck( $redis, $row, $banmoves, $ply, $enumlimit, $resetlim
 						}
 						if( $ply == 0 ) {
 							$memcache_obj = new Memcache();
-							$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0);
-							if( !$memcache_obj )
+							if( !$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0) )
 								throw new Exception( 'Memcache error.' );
 							$allmoves = array_diff_key( $allmoves, $knownmoves );
 							$findmoves = array();
@@ -1367,8 +1365,7 @@ function getAnalysisPath( $redis, $row, $banmoves, $ply, $enumlimit, $isbest, $l
 						}
 						if( $ply == 0 ) {
 							$memcache_obj = new Memcache();
-							$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0);
-							if( !$memcache_obj )
+							if( !$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0) )
 								throw new Exception( 'Memcache error.' );
 							$allmoves = array_diff_key( $allmoves, $knownmoves );
 							$findmoves = array();
@@ -1751,8 +1748,7 @@ try{
 							if( isset( $_REQUEST['nodes'] ) ) {
 								$nodes = intval($_REQUEST['nodes']);
 								$memcache_obj = new Memcache();
-								$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0);
-								if( !$memcache_obj )
+								if( !$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0) )
 									throw new Exception( 'Memcache error.' );
 								$thisminute = date('i');
 								$memcache_obj->add( 'Worker::' . $_SERVER['REMOTE_ADDR'] . 'NC_' . $thisminute, 0, 0, 150 );
@@ -1895,8 +1891,7 @@ try{
 			else
 			{
 				$memcache_obj = new Memcache();
-				$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0);
-				if( !$memcache_obj )
+				if( !$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0) )
 					throw new Exception( 'Memcache error.' );
 				$querylimit = $memcache_obj->get( 'QLimit::' . $_SERVER['REMOTE_ADDR'] );
 				if( $querylimit === FALSE || $querylimit < 100 )
@@ -2837,8 +2832,7 @@ try{
 	else if( $action == 'getqueue' ) {
 		if( isset( $_REQUEST['token'] ) && $_REQUEST['token'] == hash( 'md5', 'ChessDB' . $_SERVER['REMOTE_ADDR'] . $MASTER_PASSWORD ) ) {
 			$memcache_obj = new Memcache();
-			$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0);
-			if( !$memcache_obj )
+			if( !$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0) )
 				throw new Exception( 'Memcache error.' );
 			$activelist = $memcache_obj->get( 'WorkerList' );
 			if( $activelist === FALSE ) {
@@ -2915,8 +2909,7 @@ try{
 	else if( $action == 'getsel' ) {
 		if( isset( $_REQUEST['token'] ) && $_REQUEST['token'] == hash( 'md5', 'ChessDB' . $_SERVER['REMOTE_ADDR'] . $MASTER_PASSWORD ) ) {
 			$memcache_obj = new Memcache();
-			$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0);
-			if( !$memcache_obj )
+			if( !$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0) )
 				throw new Exception( 'Memcache error.' );
 			$activelist = $memcache_obj->get( 'SelList' );
 			if( $activelist === FALSE ) {

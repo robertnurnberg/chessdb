@@ -104,8 +104,7 @@ try{
 	$egtb_count_dtz = 0;
 	$egtb_size_dtz = 0;
 	$memcache_obj = new Memcache();
-	$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0);
-	if( !$memcache_obj )
+	if( !$memcache_obj->pconnect('unix:///var/run/memcached/memcached.sock', 0) )
 		throw new Exception( 'Memcache error.' );
 	$egtbstats = $memcache_obj->get( 'EGTBStats2' );
 	if( $egtbstats !== FALSE ) {
